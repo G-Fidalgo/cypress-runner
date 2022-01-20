@@ -1,0 +1,150 @@
+{
+    "name": "cypress-runner",
+    "displayName": "Cypress runner",
+    "description": "Simple way to run a single or multiple Cypress test from context-menu",
+    "version": "1.0.0",
+    "publisher": "G-Fidalgo",
+    "author": "Gonzalo Fidalgo",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/G-Fidalgo/cypress-runner"
+    },
+    "license": "MIT",
+    "icon": "public/cypress_runner_logo_small.png",
+    "engines": {
+        "vscode": "^1.62.0"
+    },
+    "categories": [
+        "Testing"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "configuration": [
+            {
+                "title": "Cypress-Runner Config",
+                "properties": {
+                    "cypressrunner.templates": {
+                        "type": "array",
+                        "default": [
+                            {
+                                "name": "it",
+                                "insertAfterPriority": [
+                                    "concurrent",
+                                    "it"
+                                ],
+                                "decline": [
+                                    "skip"
+                                ]
+                            }
+                        ],
+                        "description": "Templates in order to control behavior"
+                    },
+                    "cypressrunner.removeAllOnlyButton": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Presence of 'Remove all only' button in status bar"
+                    },
+                    "cypressrunner.configPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Cypress config path (relative to ${workFolder} e.g. cypress-config.json)",
+                        "scope": "window"
+                    },
+                    "cypressrunner.cypressPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Absolute path to cypress bin file (e.g. /usr/lib/node_modules/cypress/bin/cypress.js)",
+                        "scope": "window"
+                    },
+                    "cypressrunner.projectPath": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Absolute path to project directory (e.g. /home/me/project/sub-folder)",
+                        "scope": "window"
+                    },
+                    "cypressrunner.runOptions": {
+                        "type": "array",
+                        "default": [],
+                        "items": {
+                            "type": "string",
+                            "description": "CLI Option e.g. --coverage"
+                        },
+                        "description": "Add CLI Options to the Cypress Command e.g. https://docs.cypress.io/guides/guides/command-line",
+                        "scope": "window"
+                    },
+                    "cypressrunner.cypressCommand": {
+                        "type": "string",
+                        "default": "",
+                        "description": "Define an alternative Cypress command (e.g. for Create React App and similar abstractions)",
+                        "scope": "window"
+                    },
+                    "cypressrunner.codeLensSelector": {
+                        "type": "string",
+                        "default": "**/*.{test,spec}.{js,jsx,ts,tsx}",
+                        "description": "CodeLens will be shown on files matching this pattern"
+                    },
+                    "cypressrunner.changeDirectoryToWorkspaceRoot": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Changes directory to workspace root before executing the test",
+                        "scope": "window"
+                    }
+                }
+            }
+        ],
+        "commands": [
+            {
+                "command": "cypress-runner.runAndAddOnly",
+                "title": "Add .Only and run command"
+            },
+            {
+                "command": "cypress-runner.runCommand",
+                "title": "Run Command"
+            },
+            {
+                "command": "cypress-runner.removeOnly",
+                "title": "Remove .Only"
+            },
+            {
+                "command": "cypress-runner.remove.all.only",
+                "title": "Remove All Only"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js",
+        "publish": "vsce publish patch && git push",
+        "eslint:fix": "eslint --cache --fix",
+        "prettier": "prettier --write"
+    },
+    "devDependencies": {
+        "@types/babel__traverse": "7.14.2",
+        "@types/glob": "7.1.4",
+        "@types/mocha": "9.0.0",
+        "@types/node": "14.x",
+        "@types/vscode": "1.62.0",
+        "@typescript-eslint/eslint-plugin": "5.1.0",
+        "@typescript-eslint/parser": "5.1.0",
+        "@vscode/test-electron": "1.6.2",
+        "eslint": "8.1.0",
+        "glob": "7.1.7",
+        "prettier": "2.5.1",
+        "typescript": "4.4.4"
+    },
+    "dependencies": {
+        "@babel/core": "7.12.10",
+        "@babel/parser": "7.12.11",
+        "@babel/plugin-syntax-jsx": "7.12.1",
+        "@babel/plugin-syntax-typescript": "7.12.1",
+        "@babel/traverse": "7.12.12",
+        "@babel/types": "7.12.12"
+        }
+}
