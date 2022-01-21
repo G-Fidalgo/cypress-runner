@@ -5,9 +5,9 @@ import RemoveCodeLens from './removeCodeLens';
 import RunCodeLens from './runCypress';
 
 interface IState {
-    addCodeLenses: any[];
-    removeCodeLenses: any[];
-    runCodeLens: any[];
+    addCodeLenses: CodeLens[];
+    removeCodeLenses: CodeLens[];
+    runCodeLens: CodeLens[];
 }
 
 export const state: IState = {
@@ -23,7 +23,7 @@ export default class CypressRunnerCodeLensProvider implements CodeLensProvider {
         this.updateRemoveOnlyButton = updateRemoveOnlyButton;
     }
 
-    public provideCodeLenses(document: TextDocument): CodeLens[] | Thenable<CodeLens[]> {
+    public async provideCodeLenses(document: TextDocument): Promise<CodeLens[]> {
         const createRangeForCodeLens = ({ line }: { line: any }) => document.lineAt(line - 1).range;
 
         try {
