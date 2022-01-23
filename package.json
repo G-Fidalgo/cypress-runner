@@ -70,7 +70,7 @@
                         "default": [],
                         "items": {
                             "type": "string",
-                            "description": "CLI Option e.g. --coverage"
+                            "description": "CLI Option e.g. --browser"
                         },
                         "description": "Add CLI Options to the Cypress Command e.g. https://docs.cypress.io/guides/guides/command-line",
                         "scope": "window"
@@ -78,7 +78,7 @@
                     "cypressrunner.cypressCommand": {
                         "type": "string",
                         "default": "",
-                        "description": "Define an alternative Cypress command (e.g. for Create React App and similar abstractions)",
+                        "description": "Define an alternative Cypress command (e.g. for Monorepo project with handlers nx run cypress:test --skip-cache)",
                         "scope": "window"
                     },
                     "cypressrunner.codeLensSelector": {

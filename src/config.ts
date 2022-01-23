@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { window, workspace } from 'vscode';
-import { isWindows, normalizePath } from './utils';
+import { isWindows, normalizePath, quote } from './utils';
 import path = require('path');
 
 export class CypressRunnerConfig {
@@ -17,6 +17,16 @@ export class CypressRunnerConfig {
 
         // default
         return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
+    }
+
+    public get cypressCommand(): string {
+        // custom
+        const cypressCommand = workspace.getConfiguration().get('cypressrunner.cypressCommand');
+        if (cypressCommand) {
+            return <string>cypressCommand;
+        }
+
+        return `${quote(this.cypressBinPath)} run`;
     }
 
     private findConfigPath(targetPath?: string): string {
@@ -61,6 +71,21 @@ export class CypressRunnerConfig {
     public projectPath(): string {
         return workspace.getConfiguration().get('cypressrunner.projectPath') || this.currentWorkspaceFolderPath;
     }
+
+    public get runOptions(): string[] | null {
+        const runOptions = workspace.getConfiguration().get('cypressrunner.runOptions');
+        if (runOptions) {
+          if (Array.isArray(runOptions)) {
+            return runOptions;
+          } else {
+            window.showWarningMessage(
+              'Please check your vscode settings. "cypressrunner.runOptions" must be an Array. '
+            );
+          }
+        }
+        return null;
+      }
+    
 
     public get cwd(): string {
         return (
