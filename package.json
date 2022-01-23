@@ -2,7 +2,7 @@
     "name": "cypress-runner",
     "displayName": "Cypress runner",
     "description": "Simple way to run a single or multiple Cypress test from context-menu",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "publisher": "G-Fidalgo",
     "author": "Gonzalo Fidalgo",
     "repository": {
