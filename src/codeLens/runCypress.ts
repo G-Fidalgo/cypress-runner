@@ -5,7 +5,7 @@ export default class RunCodeLens extends CodeLens {
         super(range, {
             arguments: [],
             command: 'cypress-runner.runCommand',
-            title: 'Run',
+            title: 'Run Cypress',
         });
     }
 }
