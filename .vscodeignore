@@ -1,10 +1,14 @@
 .vscode/**
 .vscode-test/**
+out/**
 src/**
 .gitignore
-.yarnrc
-vsc-extension-quickstart.md
-**/tsconfig.json
+tsconfig.json
+.prettierrc
+.prettierignore
+webpack.config.js
+public/cypress_runner_big.png
+public/cypress_runner_logo.png
 **/.eslintrc.json
 **/*.map
 **/*.ts
