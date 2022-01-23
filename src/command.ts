@@ -23,7 +23,7 @@ export class CypressRunner {
 
         const filePath = editor.document.fileName;
 
-        const command = `${this.config.cypressBinPath}  run --spec ${filePath}`;
+        const command = this.buildCypressCommand(filePath);
 
         await this.goToCwd();
         await this.runTerminalCommand(command);
@@ -54,6 +54,31 @@ export class CypressRunner {
     }
 
     /* Private methods */
+
+    private buildCypressCommand(filePath: string): string {
+         const args = this.buildCypressArgs(filePath);
+     
+        return `${this.config.cypressCommand} --spec ${quote(filePath)} ${args.join(' ')}`;
+    }
+
+    private buildCypressArgs(filePath: string): string[] {
+        const args: string[] = [];
+        
+        const cypressConfigPath = this.config.getCypressConfigPath(filePath);
+        if (cypressConfigPath) {
+          args.push('--config-file');
+          args.push(quote(cypressConfigPath));
+        }
+    
+        
+        if (this.config.runOptions) {
+          this.config.runOptions.forEach((option) => args.push(option));
+        }
+        
+        return args;
+      }
+    
+
 
     private async goToCwd() {
         if (this.config.changeDirectoryToWorkspaceRoot) {
