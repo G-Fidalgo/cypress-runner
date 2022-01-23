@@ -79,7 +79,7 @@ If you have a custom setup use the following options to configure Cypress Runner
 
 Based on VsCode extensions:
 
--   [vscode-cypress-runner](https://github.com/firsttris/vscode-cypress-runner)
+-   [vscode-jest-runner](https://github.com/firsttris/vscode-jest-runner)
 -   [add-only](https://github.com/ub1que/add-only)
 
 And special thanks to @[WanManolo](https://github.com/WanManolo) as instigator of this project
