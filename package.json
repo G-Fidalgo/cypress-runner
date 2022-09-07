@@ -2,7 +2,7 @@
     "name": "cypress-runner",
     "displayName": "Cypress runner",
     "description": "Simple way to run a single or multiple Cypress test from context-menu",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "G-Fidalgo",
     "author": "Gonzalo Fidalgo",
     "repository": {
@@ -83,7 +83,7 @@
                     },
                     "cypressrunner.codeLensSelector": {
                         "type": "string",
-                        "default": "**/*.{test,spec}.{js,jsx,ts,tsx}",
+                        "default": "**/*.{cy,test,spec}.{js,jsx,ts,tsx}",
                         "description": "CodeLens will be shown on files matching this pattern"
                     },
                     "cypressrunner.changeDirectoryToWorkspaceRoot": {
