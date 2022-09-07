@@ -51,17 +51,17 @@ Also available the possibility to remove all .only added from a single button on
 Cypress Runner will work out of the box, with a valid Cypress config.  
 If you have a custom setup use the following options to configure Cypress Runner:
 
-| Command                                      | Description                                                                                       |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| cypressrunner.templates                      | Array to control extension behaviour over codeLens                                                |
-| cypressrunner.removeAllOnlyButton            |                                                                                                   |
-| cypressrunner.configPath                     | Cypress config path (relative to ${workFolder} e.g. cypress-config.json)                          |
-| cypressrunner.cypressPath                    | Absolute path to cypress bin file (e.g. /usr/lib/node_modules/cypress/bin/cypress.js)             |
-| cypressrunner.projectPath                    |                                                                                                   |
-| cypressrunner.runOptions                     |                                                                                                   |
-| cypressrunner.cypressCommand                 | Define an alternative Cypress command (e.g. for Create React App and similar abstractions)        |
-| cypressrunner.codeLensSelector               | CodeLens will be shown on files matching this pattern (default \*_/_.{test,spec}.{js,jsx,ts,tsx}) |
-| cypressrunner.changeDirectoryToWorkspaceRoot |                                                                                                   |
+| Command                                      | Description                                                                                          |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| cypressrunner.templates                      | Array to control extension behaviour over codeLens                                                   |
+| cypressrunner.removeAllOnlyButton            |                                                                                                      |
+| cypressrunner.configPath                     | Cypress config path (relative to ${workFolder} e.g. cypress-config.json)                             |
+| cypressrunner.cypressPath                    | Absolute path to cypress bin file (e.g. /usr/lib/node_modules/cypress/bin/cypress.js)                |
+| cypressrunner.projectPath                    |                                                                                                      |
+| cypressrunner.runOptions                     |                                                                                                      |
+| cypressrunner.cypressCommand                 | Define an alternative Cypress command (e.g. for Create React App and similar abstractions)           |
+| cypressrunner.codeLensSelector               | CodeLens will be shown on files matching this pattern (default \*_/_.{cy,test,spec}.{js,jsx,ts,tsx}) |
+| cypressrunner.changeDirectoryToWorkspaceRoot |                                                                                                      |
 
 <p align="center">(<a href="#top">🔝 Back to top 🔝</a>)</p>
 

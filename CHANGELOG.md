@@ -1,3 +1,9 @@
+## 1.0.2 - 2022-01-23
+
+### Added
+
+-   Update default settings for CodeLens detection with _.cy._ files
+
 ## 1.0.1 - 2022-01-23
 
 ### Added
