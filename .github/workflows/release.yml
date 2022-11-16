@@ -1,11 +1,19 @@
-name: CI
+name: Release
 
 on: 
-  pull_request:
-    branches: [master]
-    types: [opened, synchronize]
+  push: 
+    tags: 
+      - '*'
 
 jobs:
+
+  github-example-tags:
+    runs-on: ubuntu-latest
+    steps:
+     - name: GitHub Tag Name example
+       run: |
+         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
 
   # Cancel Previous Redundant Builds
   check-skip:
@@ -16,7 +24,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  lint:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,20 +35,7 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
-      - name: Lint
-        run: npm run eslint
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run compile
-
+      - name: Publish
+        run: npm run publish ${{  github.ref_name }}
+        env: 
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
