@@ -26,7 +26,7 @@ export class CypressRunnerConfig {
             return <string>cypressCommand;
         }
 
-        return `${quote(this.cypressBinPath)} run`;
+        return isWindows() ? `node ${quote(this.cypressBinPath)} run` : `${quote(this.cypressBinPath)} run`;
     }
 
     private findConfigPath(targetPath?: string): string {
@@ -75,17 +75,16 @@ export class CypressRunnerConfig {
     public get runOptions(): string[] | null {
         const runOptions = workspace.getConfiguration().get('cypressrunner.runOptions');
         if (runOptions) {
-          if (Array.isArray(runOptions)) {
-            return runOptions;
-          } else {
-            window.showWarningMessage(
-              'Please check your vscode settings. "cypressrunner.runOptions" must be an Array. '
-            );
-          }
+            if (Array.isArray(runOptions)) {
+                return runOptions;
+            } else {
+                window.showWarningMessage(
+                    'Please check your vscode settings. "cypressrunner.runOptions" must be an Array. ',
+                );
+            }
         }
         return null;
-      }
-    
+    }
 
     public get cwd(): string {
         return (
