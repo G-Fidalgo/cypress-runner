@@ -121,8 +121,7 @@
         "test": "node ./out/test/runTest.js",
         "test-compile": "tsc -p ./",
         "publish": "vsce publish patch && git push",
-        "eslint:fix": "eslint --cache --fix",
-        "prettier": "prettier --write"
+        "eslint": "eslint . --ext .ts"
     },
     "devDependencies": {
         "@types/babel__traverse": "7.14.2",
