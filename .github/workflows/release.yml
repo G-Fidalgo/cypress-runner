@@ -1,41 +1,40 @@
 name: Release
 
-on: 
-  push: 
-    tags: 
-      - '*'
+on:
+    push:
+        tags:
+            - '*'
 
 jobs:
+    github-example-tags:
+        runs-on: ubuntu-latest
+        steps:
+            - name: GitHub Tag Name example
+              run: |
+                  echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+                  echo "Tag name from github.ref_name: ${{  github.ref_name }}"
 
-  github-example-tags:
-    runs-on: ubuntu-latest
-    steps:
-     - name: GitHub Tag Name example
-       run: |
-         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+    # Cancel Previous Redundant Builds
+    check-skip:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Cancel Previous Redundant Builds
+              uses: styfle/cancel-workflow-action@0.6.0
+              with:
+                  access_token: ${{ github.token }}
 
-  # Cancel Previous Redundant Builds
-  check-skip:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel Previous Redundant Builds
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ github.token }}
-
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: npm ci
-      - name: Publish
-        run: npm run publish ${{  github.ref_name }}
-        env: 
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - name: Install dependencies
+              run: npm ci
+            - name: Publish
+              run: npm run publish ${{  github.ref_name }}
+              env:
+                  VSCE_PAT: ${{ secrets.VSCE_PAT }}
