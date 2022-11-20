@@ -34,7 +34,7 @@ export class CypressRunnerConfig {
             let currentFolderPath: string = targetPath || path.dirname(window.activeTextEditor.document.fileName);
             let currentFolderConfigPath: string;
             do {
-                for (const configFilename of ['cypress.json']) {
+                for (const configFilename of ['cypress.json', 'cypress.config.ts']) {
                     currentFolderConfigPath = path.join(currentFolderPath, configFilename);
 
                     if (fs.existsSync(currentFolderConfigPath)) {
