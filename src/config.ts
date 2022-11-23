@@ -8,15 +8,13 @@ export class CypressRunnerConfig {
         return workspace.getConfiguration().get('cypressrunner.changeDirectoryToWorkspaceRoot');
     }
 
-    getCypressConfigPath(targetPath: string): string {
+    getCypressConfigPath(): string | null {
         // custom
         const configPath: string | undefined = workspace.getConfiguration().get('cypressrunner.configPath');
-        if (!configPath) {
-            return this.findConfigPath(targetPath);
+        if (configPath && configPath.length > 0) {
+            return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
         }
-
-        // default
-        return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
+        return null;
     }
 
     public get cypressCommand(): string {
@@ -29,6 +27,7 @@ export class CypressRunnerConfig {
         return isWindows() ? `node ${quote(this.cypressBinPath)} run` : `${quote(this.cypressBinPath)} run`;
     }
 
+    // FIXME: Unable to return default config path
     private findConfigPath(targetPath?: string): string {
         if (window.activeTextEditor !== undefined) {
             let currentFolderPath: string = targetPath || path.dirname(window.activeTextEditor.document.fileName);

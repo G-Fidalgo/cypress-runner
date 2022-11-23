@@ -64,7 +64,7 @@ export class CypressRunner {
     private buildCypressArgs(filePath: string): string[] {
         const args: string[] = [];
 
-        const cypressConfigPath = this.config.getCypressConfigPath(filePath);
+        const cypressConfigPath = this.config.getCypressConfigPath();
         if (cypressConfigPath) {
             args.push('--config-file');
             args.push(quote(cypressConfigPath));
