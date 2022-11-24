@@ -13,8 +13,9 @@ export class CypressRunnerConfig {
         const configPath: string | undefined = workspace.getConfiguration().get('cypressrunner.configPath');
         if (configPath && configPath.length > 0) {
             return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
+        } else {
+            return this.findConfigPath();
         }
-        return null;
     }
 
     public get cypressCommand(): string {
@@ -27,7 +28,6 @@ export class CypressRunnerConfig {
         return isWindows() ? `node ${quote(this.cypressBinPath)} run` : `${quote(this.cypressBinPath)} run`;
     }
 
-    // FIXME: Unable to return default config path
     private findConfigPath(targetPath?: string): string {
         if (window.activeTextEditor !== undefined) {
             let currentFolderPath: string = targetPath || path.dirname(window.activeTextEditor.document.fileName);
@@ -41,7 +41,7 @@ export class CypressRunnerConfig {
                     }
                 }
                 currentFolderPath = path.join(currentFolderPath, '..');
-            } while (currentFolderPath !== this.currentWorkspaceFolderPath);
+            } while (currentFolderPath !== path.join(this.currentWorkspaceFolderPath, '..'));
             return '';
         }
         return '';
@@ -113,5 +113,18 @@ export class CypressRunnerConfig {
     public get currentWorkspaceFolderPath(): string {
         const editor = window.activeTextEditor;
         return workspace.getWorkspaceFolder(editor!.document.uri)!.uri.fsPath;
+    }
+
+    public async getCypressVersion(): Promise<string | null> {
+        try {
+            const editor = window.activeTextEditor;
+            const rootDir = workspace.getWorkspaceFolder(editor!.document.uri)!.uri.fsPath;
+            const cypressPackageJsonPath = normalizePath(path.join(rootDir, '/node_modules/cypress/package.json'));
+            const cypressPackageJson = fs.readFileSync(cypressPackageJsonPath, { encoding: 'utf-8' });
+            const version = JSON.parse(cypressPackageJson).version;
+            return version.split('.')[0];
+        } catch (error) {
+            return null;
+        }
     }
 }

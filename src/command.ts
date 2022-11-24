@@ -21,7 +21,19 @@ export class CypressRunner {
 
         await editor.document.save();
 
-        const filePath = workspace.asRelativePath(editor.document.fileName);
+        const cypressVersion = await this.config.getCypressVersion();
+
+        let filePath;
+
+        /**
+         * FIXME:
+         * Add configuration variable that allow user to select if cypress version is below 10
+         */
+        if (cypressVersion && parseInt(cypressVersion) < 10) {
+            filePath = editor.document.fileName;
+        } else {
+            filePath = workspace.asRelativePath(editor.document.fileName);
+        }
 
         const command = this.buildCypressCommand(filePath);
 
@@ -56,12 +68,12 @@ export class CypressRunner {
     /* Private methods */
 
     private buildCypressCommand(filePath: string): string {
-        const args = this.buildCypressArgs(filePath);
+        const args = this.buildCypressArgs();
 
         return `${this.config.cypressCommand} --spec ${quote(filePath)} ${args.join(' ')}`;
     }
 
-    private buildCypressArgs(filePath: string): string[] {
+    private buildCypressArgs(): string[] {
         const args: string[] = [];
 
         const cypressConfigPath = this.config.getCypressConfigPath();
