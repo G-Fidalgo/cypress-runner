@@ -120,7 +120,7 @@
         "watch": "webpack --mode none --watch",
         "test": "node ./out/test/runTest.js",
         "test-compile": "tsc -p ./",
-        "publish": "vsce publish patch",
+        "publish": "vsce publish",
         "eslint": "eslint . --ext .ts"
     },
     "devDependencies": {
