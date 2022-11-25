@@ -8,15 +8,14 @@ export class CypressRunnerConfig {
         return workspace.getConfiguration().get('cypressrunner.changeDirectoryToWorkspaceRoot');
     }
 
-    getCypressConfigPath(targetPath: string): string {
+    getCypressConfigPath(): string | null {
         // custom
         const configPath: string | undefined = workspace.getConfiguration().get('cypressrunner.configPath');
-        if (!configPath) {
-            return this.findConfigPath(targetPath);
+        if (configPath && configPath.length > 0) {
+            return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
+        } else {
+            return this.findConfigPath();
         }
-
-        // default
-        return normalizePath(path.join(this.currentWorkspaceFolderPath, configPath));
     }
 
     public get cypressCommand(): string {
@@ -26,7 +25,7 @@ export class CypressRunnerConfig {
             return <string>cypressCommand;
         }
 
-        return `${quote(this.cypressBinPath)} run`;
+        return isWindows() ? `node ${quote(this.cypressBinPath)} run` : `${quote(this.cypressBinPath)} run`;
     }
 
     private findConfigPath(targetPath?: string): string {
@@ -34,7 +33,7 @@ export class CypressRunnerConfig {
             let currentFolderPath: string = targetPath || path.dirname(window.activeTextEditor.document.fileName);
             let currentFolderConfigPath: string;
             do {
-                for (const configFilename of ['cypress.json']) {
+                for (const configFilename of ['cypress.json', 'cypress.config.ts']) {
                     currentFolderConfigPath = path.join(currentFolderPath, configFilename);
 
                     if (fs.existsSync(currentFolderConfigPath)) {
@@ -42,7 +41,7 @@ export class CypressRunnerConfig {
                     }
                 }
                 currentFolderPath = path.join(currentFolderPath, '..');
-            } while (currentFolderPath !== this.currentWorkspaceFolderPath);
+            } while (currentFolderPath !== path.join(this.currentWorkspaceFolderPath, '..'));
             return '';
         }
         return '';
@@ -75,17 +74,16 @@ export class CypressRunnerConfig {
     public get runOptions(): string[] | null {
         const runOptions = workspace.getConfiguration().get('cypressrunner.runOptions');
         if (runOptions) {
-          if (Array.isArray(runOptions)) {
-            return runOptions;
-          } else {
-            window.showWarningMessage(
-              'Please check your vscode settings. "cypressrunner.runOptions" must be an Array. '
-            );
-          }
+            if (Array.isArray(runOptions)) {
+                return runOptions;
+            } else {
+                window.showWarningMessage(
+                    'Please check your vscode settings. "cypressrunner.runOptions" must be an Array. ',
+                );
+            }
         }
         return null;
-      }
-    
+    }
 
     public get cwd(): string {
         return (
@@ -115,5 +113,18 @@ export class CypressRunnerConfig {
     public get currentWorkspaceFolderPath(): string {
         const editor = window.activeTextEditor;
         return workspace.getWorkspaceFolder(editor!.document.uri)!.uri.fsPath;
+    }
+
+    public async getCypressVersion(): Promise<string | null> {
+        try {
+            const editor = window.activeTextEditor;
+            const rootDir = workspace.getWorkspaceFolder(editor!.document.uri)!.uri.fsPath;
+            const cypressPackageJsonPath = normalizePath(path.join(rootDir, '/node_modules/cypress/package.json'));
+            const cypressPackageJson = fs.readFileSync(cypressPackageJsonPath, { encoding: 'utf-8' });
+            const version = JSON.parse(cypressPackageJson).version;
+            return version.split('.')[0];
+        } catch (error) {
+            return null;
+        }
     }
 }
