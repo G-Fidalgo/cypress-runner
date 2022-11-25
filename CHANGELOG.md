@@ -1,3 +1,21 @@
+## 1.0.2 - 2022-11-25
+
+### Added
+
+-   CI and Release pipeline
+
+-   Compability with cypress below v10
+
+-   If Cypress v10 or higher specific file to run path specifications acording to official docs
+
+### Fixed
+
+-   Update dependencies vulnerabilities
+
+-   Find Config file method
+
+-   Build cypress executable script for Windows
+
 ## 1.0.2 - 2022-09-08
 
 ### Added
