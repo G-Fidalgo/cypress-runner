@@ -10,15 +10,16 @@ import {
 } from 'vscode';
 import CypressRunnerCodeLensProvider from './codeLens/codeLensProvider';
 import { CypressRunner } from './command';
+import { CypressRunnerConfig } from './config';
 
 export function activate(context: ExtensionContext) {
+    const config = new CypressRunnerConfig();
     const cypressRunner = new CypressRunner();
     let removeAllOnlyButton: StatusBarItem;
 
     function updateRemoveAllOnlyButton(locations: string | any[]): any {
-        const removeAllOnlyOption = workspace.getConfiguration().get('cypressrunner.removeAllOnlyButton');
 
-        if (!removeAllOnlyOption) {
+        if (!config.showRemoveAllOnlyButton) {
             removeAllOnlyButton.hide();
             return;
         }
@@ -31,13 +32,17 @@ export function activate(context: ExtensionContext) {
     }
 
     const runAndAddOnly = commands.registerCommand('cypress-runner.runAndAddOnly', async (argument: any) => {
-        window.showInformationMessage('Remember to have your app running');
+        if(config.showWarningMessage()){
+            window.showInformationMessage('Remember to have your app running');
+        } 
         await cypressRunner.addOnly(argument);
         cypressRunner.runCurrentFile();
     });
 
     const runCommand = commands.registerCommand('cypress-runner.runCommand', async () => {
-        window.showInformationMessage('Remember to have your app running');
+        if(config.showWarningMessage()){
+            window.showInformationMessage('Remember to have your app running');
+        }
         cypressRunner.runCurrentFile();
     });
 
