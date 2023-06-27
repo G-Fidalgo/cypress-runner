@@ -127,4 +127,12 @@ export class CypressRunnerConfig {
             return null;
         }
     }
+
+    public showWarningMessage(): boolean {
+        return workspace.getConfiguration('cypressrunner').get('showWarningMessage') ?? false;
+    }
+
+    public showRemoveAllOnlyButton(): boolean {
+        return workspace.getConfiguration('cypressrunner').get('removeAllOnlyButton') ?? false;
+    }
 }

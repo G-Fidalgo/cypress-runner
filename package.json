@@ -91,6 +91,11 @@
                         "default": true,
                         "description": "Changes directory to workspace root before executing the test",
                         "scope": "window"
+                    },
+                    "cypressrunner.showWarningMessage": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Disable notification pop up, if true warning message will be showed"
                     }
                 }
             }
