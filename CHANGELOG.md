@@ -1,3 +1,11 @@
+## 2.0.1 - 2023-07-18
+
+### Fixed
+
+-   Add new setting to enable/disable warning message
+
+-   Update package dependencies
+
 ## 1.0.2 - 2022-11-25
 
 ### Added
