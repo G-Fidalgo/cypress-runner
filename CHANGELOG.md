@@ -1,3 +1,23 @@
+## 2.0.1 - 2023-07-18
+
+### Fixed
+
+-   Add new setting to enable/disable warning message
+
+-   Update package dependencies
+
+# 2.0.0 - 2022-11-26
+
+### Added
+
+-   Add support for Cypress V.10
+
+-   Build cypress command based on cypress version
+
+### Fixed
+
+-   Windows path error
+
 ## 1.0.2 - 2022-11-25
 
 ### Added
